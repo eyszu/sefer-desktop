@@ -1,6 +1,6 @@
 # sefer-desktop
 
-A full-screen Bible verse viewer built with Tauri 2.
+A full-screen Hebrew Bible verse viewer built with Tauri 2.
 
 - **←** previous verse, **→** next verse (wraps Malachi ↔ Genesis).
 - Verse text auto-sizes to fill the window (can be switched to a fixed size).

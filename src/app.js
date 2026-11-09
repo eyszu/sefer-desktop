@@ -180,6 +180,23 @@ function applyAppearance() {
 
 function update(patch) { Object.assign(state.settings, patch); saveSettings(); applyAppearance(); }
 
+// resize screen
+const SIZE_MIN = 18, SIZE_MAX = 140;   // matches the #size slider range
+
+/** Set a manual font size (px). Turns auto-fit off so the size takes effect. */
+function setSize(px) {
+  const size = Math.round(Math.min(SIZE_MAX, Math.max(SIZE_MIN, px)));
+  el.size.value = size;          // keep the slider in sync
+  el.autofit.checked = false;    // keep the checkbox in sync
+  update({ size, autofit: false });
+}
+
+/** Size currently on screen, so Ctrl +/- starts from what you see (even in auto-fit). */
+function currentSize() {
+  const span = el.verse.firstElementChild;
+  return span ? parseFloat(getComputedStyle(span).fontSize) : state.settings.size;
+}
+
 /** Downscale a user image so it fits comfortably in localStorage. */
 function loadImage(file) {
   return new Promise((resolve, reject) => {
@@ -288,6 +305,13 @@ function pokeUI() {
 }
 
 document.addEventListener("keydown", (e) => {
+if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+  if (e.key === "+" || e.key === "=") { e.preventDefault(); setSize(currentSize() + 5); }
+  else if (e.key === "-" || e.key === "_") { e.preventDefault(); setSize(currentSize() - 5); }
+  else if (e.key === "0") { e.preventDefault(); update({ autofit: true }); el.autofit.checked = true; }
+  return;
+}
+  
   if (e.key === "Escape" && panelOpen()) { closePanel(); return; }
   if (panelOpen() || e.altKey || e.ctrlKey || e.metaKey) return;
   if (e.key === "ArrowRight") { e.preventDefault(); next(); }
