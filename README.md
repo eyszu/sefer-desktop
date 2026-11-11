@@ -18,3 +18,6 @@ Prereqs: Rust, Node, and the Tauri system deps (Linux: `libwebkit2gtk-4.1-dev li
 
 ### Prebuilt for windows
 - download and install sefer-desktop_0.1.0_x64_en-US
+
+## Licenses
+ASV (1901) and Ang Biblia (1905) are public domain.
